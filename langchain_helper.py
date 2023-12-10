@@ -9,7 +9,7 @@ from langchain.prompts import PromptTemplate
 from langchain.chains import RetrievalQA
 load_dotenv()
 
-# GOOGLE_API_KEY = "AIzaSyAiEewSIQwdZlwaWSmY-LUzVFrvTKN9FjE"
+GOOGLE_API_KEY = "AIzaSyAiEewSIQwdZlwaWSmY-LUzVFrvTKN9FjE"
 # llm = GooglePalm(google_api_key=os.environ["GOOGLE_API_KEY"], temperature=0.2)
 llm = GooglePalm(google_api_key=GOOGLE_API_KEY , temperature=0.2)
 
