@@ -1,7 +1,8 @@
 import os
 from langchain.llms import GooglePalm
 from dotenv import load_dotenv
-from langchain.document_loaders.csv_loader import CSVLoader
+# from langchain.document_loaders.csv_loader import CSVLoader
+from langchain.document_loaders import PyPDFLoader
 from langchain.embeddings import HuggingFaceInstructEmbeddings
 from langchain.vectorstores import FAISS
 from langchain.prompts import PromptTemplate
@@ -13,12 +14,19 @@ llm = GooglePalm(google_api_key=os.environ["GOOGLE_API_KEY"], temperature=0.2)
 instructor_embeddings = HuggingFaceInstructEmbeddings()
 vectordb_file_path = "faiss_index"
 
+
 def create_vector_db():
-    loader = CSVLoader(file_path='data.csv', source_column="instruction")
-    # Store the loaded data in the 'data' variable
+    loader = PyPDFLoader(file_path = "budget_speech.pdf")
     data = loader.load()
     vectordb = FAISS.from_documents(documents=data, embedding=instructor_embeddings)
     vectordb.save_local(vectordb_file_path)
+
+# def create_vector_db():
+#     loader = CSVLoader(file_path='data.csv', source_column="instruction")
+#     # Store the loaded data in the 'data' variable
+#     data = loader.load()
+#     vectordb = FAISS.from_documents(documents=data, embedding=instructor_embeddings)
+#     vectordb.save_local(vectordb_file_path)
 
 
 def get_qa_chain():
@@ -52,4 +60,4 @@ def get_qa_chain():
 if __name__== "__main__":
     create_vector_db()
     chain = get_qa_chain()
-    print(chain("Where is the modern technology heading to?"))
+    print(chain("How much the agriculture target will be increased by how many crore?"))
